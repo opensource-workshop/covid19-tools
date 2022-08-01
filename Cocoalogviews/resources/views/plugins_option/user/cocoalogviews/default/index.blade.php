@@ -39,15 +39,13 @@
 
 <style type="text/css">
     .table_frame {
-      overflow-x: hidden;
-      overflow-y: scroll;
       height: 500px;
     }
 </style>
 
 @if(isset($dates))
 <br />
-<div class="table_frame">
+<div class="table_frame table-responsive">
 <table class="table table-bordered table-hover table-sm">
 <thead class="sticky-top bg-light">
     <th nowrap>日付</th>
