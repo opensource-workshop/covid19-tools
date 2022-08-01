@@ -145,14 +145,16 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
         $calendar_name = "calendar." . $frame_id;
         $calendar_textarea = trim($request->$calendar_name);
         if ($calendar_textarea) {
-	        $calendar_array = explode("\n", $calendar_textarea);
+            $calendar_array = explode("\n", $calendar_textarea);
             if (is_array($calendar_array) && count($calendar_array) > 1) {
-		        foreach($calendar_array as $calendar_row) {
-		            $calendar_day_event = explode(",", $calendar_row);
-		            $calendar_day_ymd = date('Y-m-d', strtotime($calendar_day_event[0]));
-		            $dates[$calendar_day_ymd]->calendar_event = $calendar_day_event[1];
-		        }
-	        }
+                foreach($calendar_array as $calendar_row) {
+                    $calendar_day_event = explode(",", $calendar_row);
+                    $calendar_day_ymd = date('Y-m-d', strtotime($calendar_day_event[0]));
+                    if (array_key_exists($calendar_day_ymd, $dates)) {
+                        $dates[$calendar_day_ymd]->calendar_event = $calendar_day_event[1];
+                    }
+                }
+            }
         }
 
         // 表示テンプレートを呼び出す。
