@@ -54,7 +54,7 @@
     <th nowrap>リスク合計</th>
     <th nowrap>最大リスク</th>
     @if (!empty($calendar))
-        <th>カレンダー</th>
+        <th>スケジュール</th>
     @endisset($calendar)
 </thead>
 <tbody>
