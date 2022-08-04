@@ -51,8 +51,8 @@
     <th nowrap>日付</th>
     <th nowrap>記録回数</th>
     <th nowrap>記録時間合計</th>
-    <th nowrap>リスク合計</th>
-    <th nowrap>最大リスク</th>
+    <th nowrap>スコア合計</th>
+    <th nowrap>最大スコア</th>
     @if (!empty($calendar))
         <th>スケジュール</th>
     @endisset($calendar)
