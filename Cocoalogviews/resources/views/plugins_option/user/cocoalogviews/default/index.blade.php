@@ -41,6 +41,9 @@
     .table_frame {
       height: 500px;
     }
+    .hiddenRow {
+        padding: 0 !important;
+    }
 </style>
 
 @if(isset($dates))
@@ -48,11 +51,12 @@
 <div class="table_frame table-responsive">
 <table class="table table-bordered table-hover table-sm">
 <thead class="sticky-top bg-light">
-    <th nowrap>日付</th>
-    <th nowrap>記録回数</th>
-    <th nowrap>記録時間合計</th>
-    <th nowrap>スコア合計</th>
-    <th nowrap>最大スコア</th>
+    <th class="text-nowrap"></th>
+    <th class="text-nowrap">日付</th>
+    <th class="text-nowrap">接触者数</th>
+    <th class="text-nowrap">記録時間合計</th>
+    <th class="text-nowrap">スコア合計</th>
+    <th class="text-nowrap">最大スコア</th>
     @if (!empty($calendar))
         <th>スケジュール</th>
     @endisset($calendar)
@@ -61,14 +65,34 @@
 
 @foreach ($dates as $key => $date)
 <tr style="background-color: {{$date->getBackgroundColor()}}">
-    <td nowrap>{{$date->format_date}}</td>
-    <td>{{$date->count}}</td>
+    @if ($date->getCount() > 0)
+        <td class="text-nowrap text-center" style="cursor: pointer;" data-toggle="collapse" data-target="#R{{$date->date}}" class="accordion-toggle">
+            <i class="fas fa-eye"></i>
+        </td>
+    @else
+        <td></td>
+    @endif
+    <td class="text-nowrap">{{$date->format_date}}</td>
+    <td>{{$date->getCount()}}</td>
     <td>{{$date->getTotaltime()}}</td>
     <td>{{$date->score_sum}}</td>
     <td>{{$date->maximum_score}}</td>
     @if (!empty($calendar))
         <td>{{$date->calendar_event}}</td>
     @endisset($calendar)
+</tr>
+<tr class="hiddenRow">
+    @if (empty($calendar))
+        <td colspan="6" class="py-0">
+    @else
+        <td colspan="7" class="py-0">
+    @endif
+        <div id="R{{$date->date}}" class="accordian-body collapse">
+            @foreach ($date->exposure_windows as $exposure_window)
+                ［接触者-{{$loop->iteration}}］合計時間：{{$date->sumSecondsSinceLastScan($exposure_window)}}{{-- 、個別秒：{{$date->getSecondsSinceLastScan($exposure_window)}} --}}<br />
+            @endforeach
+        </div>
+    </td>
 </tr>
 @endforeach
 

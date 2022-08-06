@@ -19,9 +19,10 @@ class CocoalogDay
     public $format_date = null;
     public $score_sum = 0;
     public $maximum_score = 0;
-    public $count = 0;
-    public $totaltime = 0;
     public $calendar_event = "";
+
+    // 同じ日の中の exposure_windows の値の配列
+    public $exposure_windows = array();
 
     // 最大リスク設定
     public $max_scale = 3000;
@@ -59,10 +60,23 @@ class CocoalogDay
      */
     public function setExposureWindows($exposure_windows)
     {
-        $this->count++;
-        foreach ($exposure_windows['ScanInstances'] as $scanInstances) {
-            $this->totaltime += $scanInstances['SecondsSinceLastScan'];
+        $this->exposure_windows[] = $exposure_windows;
+    }
+
+    /**
+     * 時間フォーマット
+     */
+    public function getFormatTime($format, $seconds)
+    {
+        $hours = floor($seconds / 3600); //時間
+        $minutes = floor(($seconds / 60) % 60); //分
+        $seconds = floor($seconds % 60); //秒
+        if ($format == "i:s") {
+            $ret = sprintf("%02d:%02d", $minutes, $seconds);
+        } else {
+            $ret = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
         }
+        return $ret;
     }
 
     /**
@@ -70,11 +84,48 @@ class CocoalogDay
      */
     public function getTotaltime()
     {
-        $hours = floor($this->totaltime / 3600); //時間
-        $minutes = floor(($this->totaltime / 60) % 60); //分
-        $seconds = floor($this->totaltime % 60); //秒
-        $hms = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
-        return $hms;
+        $totaltime = 0;
+        foreach ($this->exposure_windows as $exposure_window) {
+            if (array_key_exists('ScanInstances', $exposure_window)) {
+                foreach ($exposure_window['ScanInstances'] as $scan_instance) {
+                    $totaltime += array_key_exists('SecondsSinceLastScan', $scan_instance) ? $scan_instance['SecondsSinceLastScan'] : 0;
+                }
+            }
+        }
+
+        return $this->getFormatTime('H:i:s', $totaltime);
+    }
+
+    /**
+     * カウントの取得
+     */
+    public function getCount()
+    {
+        return count($this->exposure_windows);
+    }
+
+    /**
+     * ScanInstances のSecondsSinceLastScan の合計
+     */
+    public function sumSecondsSinceLastScan($exposure_window)
+    {
+        $sum_seconds_since_last_scan = 0;
+        foreach ($exposure_window['ScanInstances'] as $scan_instance) {
+            $sum_seconds_since_last_scan += $scan_instance["SecondsSinceLastScan"];
+        }
+        return $this->getFormatTime('H:i:s', $sum_seconds_since_last_scan);
+    }
+
+    /**
+     * ScanInstances のSecondsSinceLastScan の取得
+     */
+    public function getSecondsSinceLastScan($exposure_window)
+    {
+        $array_seconds_since_last_scan = array();
+        foreach ($exposure_window['ScanInstances'] as $scan_instance) {
+            $array_seconds_since_last_scan[] = $scan_instance["SecondsSinceLastScan"];
+        }
+        return implode(',', $array_seconds_since_last_scan);
     }
 
     /**
