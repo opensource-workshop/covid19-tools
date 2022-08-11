@@ -58,8 +58,8 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
      * データ初期表示関数
      * コアがページ表示の際に呼び出す関数
      *
-     * @method_title 記事編集
-     * @method_desc 記事一覧を表示します。
+     * @method_title 初期画面
+     * @method_desc ログ貼り付け、結果一覧を表示します。
      * @method_detail
      */
     public function index($request, $page_id, $frame_id, $post_id = null)
@@ -80,8 +80,7 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
     }
 
     /**
-     * 顔認識
-     * 外部サービスの呼び出し
+     * COCOAログを解析し、画面に表示します。
      */
     public function viewJson($request, $page_id, $frame_id)
     {
