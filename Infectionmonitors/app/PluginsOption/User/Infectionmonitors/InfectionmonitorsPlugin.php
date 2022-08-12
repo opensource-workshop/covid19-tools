@@ -89,32 +89,64 @@ class InfectionmonitorsPlugin extends UserPluginOptionBase
 
     /**
      * 全国データのインポート
+       曜日配列 を用意して、常に更新していく。
+       [
+           "previous" => [  // 前の一週間
+               0 => 10,     // Sun
+               1 => 11,     // Mon
+               2 => 12,     // Tue
+               3 => 13,     // Wed
+               4 => 14,     // Thu
+               5 => 15,     // Fri
+               6 => 16,     // Sat
+           ],
+           "recent" => [    // 直近一週間
+               0 => 10,     // Sun
+               1 => 11,     // Mon
+               2 => 12,     // Tue
+               3 => 13,     // Wed
+               4 => 14,     // Thu
+               5 => 15,     // Fri
+               6 => 16,     // Sat
+           ]
+       ]
      */
     private function importDomesticsCsv($date = null)
     {
+        // 曜日配列の準備
+        $infection_count = ["previous" => [0, 0, 0, 0, 0, 0, 0], "recent" => [0, 0, 0, 0, 0, 0, 0]];
+
         LazyCollection::make(function () {
             $filePath = storage_path('app/plugins/infectionmonitors/nhk_news_covid19_domestic_daily_data.csv');
             $file = new \SplFileObject($filePath);
             $file->setFlags(\SplFileObject::READ_CSV);
-
             foreach ($file as $lines) {
                 yield $lines;
             }
         })
             ->skip(1)     //ヘッダー行をスキップ
             ->chunk(1000) //分割
-            ->each(function ($lines) use ($date) {
+            ->each(function ($lines) use ($date, &$infection_count) {
                 $data = [];
                 foreach($lines as $line){
                     if (is_array($line) && count($line) == 5) {
+                        // 週の数値の前週への繰り越しと今日の代入
+                        $week_no = date('w', strtotime($line[0]));
+                        $infection_count["previous"][$week_no] = $infection_count["recent"][$week_no];
+                        $infection_count["recent"][$week_no] = intval($line[1]);
+
+                        // DBへ保存する準備
                         $line[0] = date('Y-m-d', strtotime($line[0]));
                         if (empty($date) || (!empty($date) && $line[0] > $date)) {
                             $data[] = [
-                                'date'             => $line[0],
-                                'daily_infections' => $line[1],
-                                'sum_infections'   => $line[2],
-                                'daily_deaths'     => $line[3],
-                                'sum_deaths'       => $line[4]
+                                'date'                  => $line[0],
+                                'daily_infections'      => $line[1],
+                                'sum_infections'        => $line[2],
+                                'daily_deaths'          => $line[3],
+                                'sum_deaths'            => $line[4],
+                                'difference_infections' => intval($line[1]) - $infection_count["previous"][$week_no],
+                                'previous_week_ratio'   => $infection_count["previous"][$week_no] > 0 ? round(intval($line[1]) / $infection_count["previous"][$week_no] * 100, 1) : 0,
+                                'week_ratio'            => array_sum($infection_count["previous"]) > 0 ? round(array_sum($infection_count["recent"]) / array_sum($infection_count["previous"]) * 100, 1) : 0,
                             ];
                         }
                     }
@@ -257,7 +289,7 @@ class InfectionmonitorsPlugin extends UserPluginOptionBase
         }
 
         // 最新日付のデータを取得し、それが昨日よりも前の場合は、データを取りに行き、インポートされていない日のデータをインポートする。
-        $yesterday = date('Y-m-d', strtotime('-1 day'));;
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
 
         $last_domestic = InfectionmonitorDomestic::orderBy('date', 'desc')->first();
         if (!empty($last_domestic) && $yesterday > $last_domestic->date) {
@@ -279,7 +311,11 @@ class InfectionmonitorsPlugin extends UserPluginOptionBase
         // - データの表示用処理
         // ---------------------------------------
 
-$infections = 'test';
+        // 全国
+//        $infections = InfectionmonitorDomestic::orderBy('date', 'asc')->get();;
+        $one_month_ago = date('Y-m-d', strtotime('-1 month'));
+
+        $infections = InfectionmonitorDomestic::where('date', '>=', $one_month_ago)->orderBy('date', 'asc')->get();;
 
         // 表示テンプレートを呼び出す。
         return $this->view('index', [

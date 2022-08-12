@@ -18,8 +18,11 @@ class CreateInfectionmonitorDomestics extends Migration
             $table->date('date')->comment('日付');
             $table->unsignedInteger('daily_infections')->comment('国内の感染者数_1日ごとの発表数');
             $table->unsignedInteger('sum_infections')->comment('国内の感染者数_累計');
+            $table->integer('difference_infections')->comment('先週との感染者増減');
             $table->unsignedInteger('daily_deaths')->comment('国内の死者数_1日ごとの発表数');
             $table->unsignedInteger('sum_deaths')->comment('国内の死者数_累計');
+            $table->float('previous_week_ratio', 6, 1)->comment('前週同曜日比率');
+            $table->float('week_ratio', 6, 1)->comment('週間比率');
             $table->integer('created_id')->nullable();
             $table->string('created_name', 255)->nullable();
             $table->timestamp('created_at')->nullable();

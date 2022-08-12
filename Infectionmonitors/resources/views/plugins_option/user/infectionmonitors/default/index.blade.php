@@ -9,8 +9,6 @@
 
 @section("plugin_contents_$frame->id")
 
-{{$infections}}
-
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
 
@@ -24,6 +22,24 @@
     // グラフの描画
     function drawChart() {
 
+        // 配列からデータの生成
+        var data = google.visualization.arrayToDataTable([
+            ['日付'   , '前週同曜日比率', '週間比率'],
+@foreach($infections as $infection)
+    @if ($loop->last)
+            ['{{$infection->date}}', {{$infection->previous_week_ratio}}, {{$infection->week_ratio}}]
+    @else
+            ['{{$infection->date}}', {{$infection->previous_week_ratio}}, {{$infection->week_ratio}}],
+    @endif
+@endforeach
+        ]);
+
+        // オプションの設定
+        var options = {
+            title: '感染者数の比率遷移'
+        };
+
+{{--
         // 配列からデータの生成
         var data = google.visualization.arrayToDataTable([
             ['年度'   , '所得税', '法人税','消費税'],
@@ -40,6 +56,7 @@
         var options = {
             title: '所得税・法人税・消費税の年間推移 ( 単位：兆円 )'
         };
+--}}
 
         // 指定されたIDの要素に折れ線グラフを作成
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
