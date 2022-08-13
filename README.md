@@ -9,3 +9,11 @@
 もちろん、予測できる以上、感染防御にも役立つと考えています。  
 そのために、感染者数の前週比率をグラフでわかりやすく表示します。  
 
+
+「covid19-tools」リポジトリは、Connect-CMS の標準パッケージには含まれない、Covid19関係のオプション・プラグインを格納するためのリポジトリです。  
+Connect-CMS の標準パッケージは以下を参照してください。  
+https://github.com/opensource-workshop/connect-cms  
+  
+データベースの migration は以下のコマンドで行います。  
+php artisan migrate --path=database/migrations_option  
+
