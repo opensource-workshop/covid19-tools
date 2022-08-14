@@ -12,5 +12,5 @@ class InfectionmonitorDomestic extends Model
     use UserableNohistory;
 
     // 更新する項目の定義
-    protected $fillable = ['date', 'daily_infections', 'sum_infections', 'daily_deaths', 'sum_deaths', 'previous_week_ratio', 'week_ratio'];
+    //protected $fillable = ['date', 'daily_infections', 'sum_infections', 'daily_deaths', 'sum_deaths', 'previous_week_ratio', 'week_ratio'];
 }

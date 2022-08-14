@@ -20,9 +20,12 @@ class CreateInfectionmonitorPrefectures extends Migration
             $table->string('prefecture_name', 255)->comment('都道府県名');
             $table->unsignedInteger('prefecture_daily_infections')->comment('各地の1日ごとの発表数');
             $table->unsignedInteger('prefecture_sum_infections')->comment('各地の死者数_累計');
+            $table->integer('difference_infections')->comment('先週との感染者増減');
             $table->unsignedInteger('prefecture_daily_deaths')->comment('各地の死者数_1日ごとの発表数');
             $table->unsignedInteger('prefecture_sum_deaths')->comment('各地の死者数_累計');
             $table->unsignedInteger('infected_per100000')->comment('各地の直近1週間の人口10万人あたりの感染者数');
+            $table->float('previous_week_ratio', 6, 1)->comment('前週同曜日比率');
+            $table->float('week_ratio', 6, 1)->comment('週間比率');
             $table->integer('created_id')->nullable();
             $table->string('created_name', 255)->nullable();
             $table->timestamp('created_at')->nullable();

@@ -12,5 +12,5 @@ class InfectionmonitorPrefecture extends Model
     use UserableNohistory;
 
     // 更新する項目の定義
-    protected $fillable = ['date', 'prefecture_code', 'prefecture_name', 'prefecture_daily_infections', 'prefecture_sum_infections', 'prefecture_daily_deaths', 'prefecture_sum_deaths', 'infected_per100000'];
+    //protected $fillable = ['date', 'prefecture_code', 'prefecture_name', 'prefecture_daily_infections', 'prefecture_sum_infections', 'prefecture_daily_deaths', 'prefecture_sum_deaths', 'infected_per100000', 'previous_week_ratio', 'week_ratio'];
 }
