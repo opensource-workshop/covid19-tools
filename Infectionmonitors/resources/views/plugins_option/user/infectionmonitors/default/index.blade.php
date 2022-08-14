@@ -132,7 +132,7 @@ NHKのデータ利用規約は以下になります。<br />
 
 <p style="line-height:0.9rem;">
 <small>
-<b>グラのライブラリ:Google Charts</b><br />
+<b>グラフのライブラリ:Google Charts</b><br />
 <a href="https://developers.google.com/chart" target="_blank">https://developers.google.com/chart</a>
 </small>
 </p>
