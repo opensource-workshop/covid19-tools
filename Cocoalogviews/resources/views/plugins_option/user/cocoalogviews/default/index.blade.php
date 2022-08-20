@@ -17,7 +17,7 @@
         <div class="col-md-10">
             <textarea name="json[{{$frame_id}}]" class="form-control @if ($errors->has("json.$frame_id")) border-danger @endif" id="json{{$frame_id}}" rows=8>{!!old("json.$frame_id", $json)!!}</textarea>
             @if ($errors && $errors->has("json.$frame_id"))
-                <div class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{$errors->first("json.*")}}</div>
+                <div class="text-danger"><i class="fas fa-exclamation-circle"></i> {{$errors->first("json.*")}}</div>
             @endif
         </div>
     </div>

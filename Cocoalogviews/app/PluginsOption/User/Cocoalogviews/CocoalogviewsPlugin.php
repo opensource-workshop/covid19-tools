@@ -58,8 +58,8 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
      * データ初期表示関数
      * コアがページ表示の際に呼び出す関数
      *
-     * @method_title 初期画面
-     * @method_desc ログ貼り付け、結果一覧を表示します。
+     * @method_title 記事編集
+     * @method_desc 記事一覧を表示します。
      * @method_detail
      */
     public function index($request, $page_id, $frame_id, $post_id = null)
@@ -80,7 +80,8 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
     }
 
     /**
-     * COCOAログを解析し、画面に表示します。
+     * 顔認識
+     * 外部サービスの呼び出し
      */
     public function viewJson($request, $page_id, $frame_id)
     {
@@ -103,13 +104,15 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
         // json チェック(データ件数チェック)
         if (!array_key_exists('daily_summaries', $exposure_array) || count($exposure_array['daily_summaries']) == 0) {
             $validator = Validator::make($request->all(), []);
-            $validator->errors()->add('json.' . $frame_id, 'ログデータが正しくありません。（daily_summaries がないか0件です。）');
+            //$validator->errors()->add('json.' . $frame_id, 'ログデータが正しくありません。（daily_summaries がないか0件です。）');
+            $validator->errors()->add('json.' . $frame_id, '陽性者との接触記録がありません。');
             return $this->index($request, $page_id, $frame_id)->withErrors($validator);
         }
         // json チェック(データ件数チェック)
         if (!array_key_exists('exposure_windows', $exposure_array) || count($exposure_array['exposure_windows']) == 0) {
             $validator = Validator::make($request->all(), []);
-            $validator->errors()->add('json.' . $frame_id, 'ログデータが正しくありません。（exposure_windows がないか0件です。）');
+            //$validator->errors()->add('json.' . $frame_id, 'ログデータが正しくありません。（exposure_windows がないか0件です。）');
+            $validator->errors()->add('json.' . $frame_id, '陽性者との接触記録がありません。');
             return $this->index($request, $page_id, $frame_id)->withErrors($validator);
         }
 
