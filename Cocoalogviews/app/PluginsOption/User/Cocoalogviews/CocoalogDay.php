@@ -17,6 +17,7 @@ class CocoalogDay
     /* オブジェクト変数 */
     public $date = null;
     public $format_date = null;
+    public $date_ym = null;
     public $score_sum = 0;
     public $maximum_score = 0;
     public $calendar_event = "";
@@ -25,7 +26,7 @@ class CocoalogDay
     public $exposure_windows = array();
 
     // 最大リスク設定
-    public $max_scale = 3000;
+    public static $max_scale = 3000;
 
     /**
      * コンストラクタ
@@ -35,7 +36,8 @@ class CocoalogDay
     function __construct($date) {
         $this->date = $date;
         $carbon = new Carbon($date);
-        $this->format_date = $carbon->isoFormat('YYYY年MM月DD(ddd)');;
+        $this->format_date = $carbon->isoFormat('YYYY年MM月DD(ddd)');
+        $this->date_ym = $carbon->isoFormat('YYYY年MM月');
     }
 
     /**
@@ -131,25 +133,25 @@ class CocoalogDay
     /**
      * 行の背景色
      */
-    public function getBackgroundColor()
+    public static function getBackgroundColor($score_sum)
     {
         // ScoreSum が 0 の場合は背景は白
-        if ($this->score_sum == 0) {
+        if ($score_sum == 0) {
             return "#ffffff";
         }
 
         // 最大リスク設定値を256階調で割り、目盛りを作成。ScoreSumを目盛りで割り、個別の階調を算出。
-        $tmp1 = ceil($this->max_scale / 256);
-        $tmp2 = ceil($this->score_sum / $tmp1);
+        $tmp1 = ceil(self::$max_scale / 256);
+        $tmp2 = ceil($score_sum / $tmp1);
         $tmp2 = $tmp2 > 256 ? $tmp2 = 256 : $tmp2;
 
-        return "#ff" . $this->getHex(256 - $tmp2) . $this->getHex(256 - $tmp2) . ";";
+        return "#ff" . self::getHex(256 - $tmp2) . self::getHex(256 - $tmp2) . ";";
     }
 
     /**
      * 行の背景色
      */
-    private function getHex($num)
+    private static function getHex($num)
     {
         $tmp = dechex($num);
         if (strlen($tmp) == 1) {
