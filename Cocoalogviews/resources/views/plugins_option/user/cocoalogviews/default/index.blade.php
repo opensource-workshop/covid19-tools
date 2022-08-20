@@ -89,7 +89,13 @@
     @endif
         <div id="R{{$date->date}}" class="accordian-body collapse">
             @foreach ($date->exposure_windows as $exposure_window)
-                ［接触者-{{$loop->iteration}}］合計時間：{{$date->sumSecondsSinceLastScan($exposure_window)}}{{-- 、個別秒：{{$date->getSecondsSinceLastScan($exposure_window)}} --}}<br />
+                <a href="#" data-toggle="collapse" data-target="#R{{$date->date}}-{{$loop->iteration}}" class="accordion-toggle">［接触者-{{$loop->iteration}}］</a>合計時間：{{$date->sumSecondsSinceLastScan($exposure_window)}}{{-- 、個別秒：{{$date->getSecondsSinceLastScan($exposure_window)}} --}}<br />
+                <div id="R{{$date->date}}-{{$loop->iteration}}" class="accordian-body collapse ml-3">
+                    最小減衰量 - 平均減衰量 - 秒<br />
+                    @foreach ($exposure_window['ScanInstances'] as $scan_instance)
+                        {{$scan_instance["MinAttenuationDb"]}}dB - {{$scan_instance["TypicalAttenuationDb"]}}dB - {{$scan_instance["SecondsSinceLastScan"]}}秒<br />
+                    @endforeach
+                </div>
             @endforeach
         </div>
     </td>
