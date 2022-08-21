@@ -170,9 +170,9 @@
     </tr>
     <tr>
         <th class="text-nowrap">日付</th>
-        <th class="text-nowrap">値</th>
+        <th class="text-nowrap">スコア</th>
         <th class="text-nowrap">日付</th>
-        <th class="text-nowrap">値</th>
+        <th class="text-nowrap">dB</th>
         <th class="text-nowrap">接触者</th>
     </tr>
 </thead>
