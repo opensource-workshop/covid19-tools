@@ -68,7 +68,7 @@
 <br />
 <span class="badge badge-pill badge-info">日毎の陽性者との接触記録</span>
 <div class="table_frame table-responsive">
-<table class="table table-bordered table-hover table-sm">
+<table class="table table-bordered table-sm">
 <thead class="sticky-top bg-light">
     <tr>
         <th class="text-nowrap"></th>
@@ -161,7 +161,7 @@
 <span class="badge badge-pill badge-info mt-4">月毎の陽性者との接触記録中最大値など</span>
 
 <div class="table-responsive">
-<table class="table table-bordered table-hover table-sm">
+<table class="table table-bordered table-sm">
 <thead class="sticky-top bg-light">
     <tr>
         <th class="text-nowrap" rowspan="2" style="vertical-align: middle;">年月</th>
