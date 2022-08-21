@@ -66,7 +66,7 @@
 
 @if(isset($dates))
 <br />
-<span class="badge badge-pill badge-info">日毎の陽性者との接触記録</span>
+<h5><span class="badge badge-pill badge-info">日毎の陽性者との接触記録</span></h5>
 <div class="table_frame table-responsive">
 <table class="table table-bordered table-sm">
 <thead class="sticky-top bg-light">
@@ -158,7 +158,7 @@
 </table>
 </div>
 
-<span class="badge badge-pill badge-info mt-4">月毎の陽性者との接触記録中最大値など</span>
+<h5><span class="badge badge-pill badge-info mt-4">月毎の接触記録最大値等</span></h5>
 
 <div class="table-responsive">
 <table class="table table-bordered table-sm">
