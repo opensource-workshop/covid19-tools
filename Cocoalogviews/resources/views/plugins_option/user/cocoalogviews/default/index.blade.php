@@ -31,9 +31,10 @@
     {{ csrf_field() }}
 
     <div class="form-group row">
-        <label class="col-md-2 control-label text-md-right">COCOAログ（貼り付け or ファイル）</label>
+        <label class="col-md-2 control-label text-md-right">COCOAログ <strong class="badge badge-danger">必須</strong></label>
         <div class="col-md-10">
-            <textarea name="json[{{$frame_id}}]" class="form-control @if ($errors->has("json.$frame_id")) border-danger @endif" id="json{{$frame_id}}" rows=8>{!!old("json.$frame_id", $json)!!}</textarea>
+            <textarea name="json[{{$frame_id}}]" class="form-control @if ($errors->has("json.$frame_id")) border-danger @endif" id="json{{$frame_id}}" rows=8 placeholder="ここにCOCOAログを貼り付けます。
+もしくは、下のファイル選択でCOCOAログファイルを選択します。">{!!old("json.$frame_id", $json)!!}</textarea>
             <div class="custom-file mt-1">
                 <input type="file" class="custom-file-input" name="file[{{$frame_id}}]" id="file[{{$frame_id}}]">
                 <label class="custom-file-label" for="file[{{$frame_id}}]" data-browse="ファイル選択">COCOAログファイル</label>
@@ -45,9 +46,10 @@
     </div>
 
     <div class="form-group row">
-        <label class="col-md-2 control-label text-md-right">スケジュール（貼り付け or ファイル）</label>
+        <label class="col-md-2 control-label text-md-right">スケジュール</label>
         <div class="col-md-10">
-            <textarea name="calendar[{{$frame_id}}]" class="form-control @if ($errors->has("calendar.$frame_id")) border-danger @endif" id="calendar{{$frame_id}}" rows=8>{!!old("calendar.$frame_id", $calendar)!!}</textarea>
+            <textarea name="calendar[{{$frame_id}}]" class="form-control @if ($errors->has("calendar.$frame_id")) border-danger @endif" id="calendar{{$frame_id}}" rows=8 placeholder="ここにCSV形式のスケジュールファイルを貼り付けます。
+もしくは、下のファイル選択でスケジュールファイルを選択します。">{!!old("calendar.$frame_id", $calendar)!!}</textarea>
             <div class="custom-file mt-1">
                 <input type="file" class="custom-file-input" name="calendar_file[{{$frame_id}}]" id="calendar_file[{{$frame_id}}]">
                 <label class="custom-file-label" for="calendar_file[{{$frame_id}}]" data-browse="ファイル選択">スケジュールファイル</label>
