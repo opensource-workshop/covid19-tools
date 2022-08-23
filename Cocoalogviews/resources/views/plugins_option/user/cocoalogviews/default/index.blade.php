@@ -50,7 +50,7 @@
             <textarea name="calendar[{{$frame_id}}]" class="form-control @if ($errors->has("calendar.$frame_id")) border-danger @endif" id="calendar{{$frame_id}}" rows=8>{!!old("calendar.$frame_id", $calendar)!!}</textarea>
             <div class="custom-file mt-1">
                 <input type="file" class="custom-file-input" name="calendar_file[{{$frame_id}}]" id="calendar_file[{{$frame_id}}]">
-                <label class="custom-file-label" for="calendar_file[{{$frame_id}}]" data-browse="ファイル選択">カレンダーファイル</label>
+                <label class="custom-file-label" for="calendar_file[{{$frame_id}}]" data-browse="ファイル選択">スケジュールファイル</label>
             </div>
             @if ($errors && $errors->has("calendar.$frame_id"))
                 <div class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{$errors->first("calendar.*")}}</div>
