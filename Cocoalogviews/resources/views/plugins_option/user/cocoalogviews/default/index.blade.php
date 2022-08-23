@@ -27,13 +27,17 @@
     */
 @endphp
 
-<form action="{{url('/')}}/plugin/cocoalogviews/viewJson/{{$page->id}}/{{$frame_id}}#frame-{{$frame->id}}" method="POST" class="">
+<form action="{{url('/')}}/plugin/cocoalogviews/viewJson/{{$page->id}}/{{$frame_id}}#frame-{{$frame->id}}" method="POST" class="" enctype="multipart/form-data">
     {{ csrf_field() }}
 
     <div class="form-group row">
-        <label class="col-md-2 control-label text-md-right">COCOAログ</label>
+        <label class="col-md-2 control-label text-md-right">COCOAログ（貼り付け or ファイル）</label>
         <div class="col-md-10">
             <textarea name="json[{{$frame_id}}]" class="form-control @if ($errors->has("json.$frame_id")) border-danger @endif" id="json{{$frame_id}}" rows=8>{!!old("json.$frame_id", $json)!!}</textarea>
+            <div class="custom-file mt-1">
+                <input type="file" class="custom-file-input" name="file[{{$frame_id}}]" id="file[{{$frame_id}}]">
+                <label class="custom-file-label" for="file[{{$frame_id}}]" data-browse="ファイル選択">COCOAログファイル</label>
+            </div>
             @if ($errors && $errors->has("json.$frame_id"))
                 <div class="text-danger"><i class="fas fa-exclamation-circle"></i> {{$errors->first("json.*")}}</div>
             @endif

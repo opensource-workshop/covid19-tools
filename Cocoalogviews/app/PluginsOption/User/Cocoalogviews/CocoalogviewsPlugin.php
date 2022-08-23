@@ -89,6 +89,11 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
         $json_name = "json." . $frame_id;
         $json = $request->$json_name;
 
+        // ファイルがあれば、ファイルの内容でjson を上書き（テキスト貼り付けよりファイルを優先）
+        if ($request->hasFile('file.' . $frame_id)) {
+            $json = file_get_contents($request->file('file.' . $frame_id), 'r');
+        }
+
         // 表示する最低スコアの設定
         $cut_score = 100;
 
@@ -124,6 +129,7 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
         $first = current($exposure_array['daily_summaries']);
         $start = date('Y-m-d', substr($first['DateMillisSinceEpoch'], 0, 10));
         $end = date('Y-m-d');
+        //$end = date('Y-m-d', strtotime('2022-09-01'));
         for ($i = $start; $i <= $end; $i = date('Y-m-d', strtotime($i . '+1 day'))) {
             // ココアログ表示クラスに値を保持する。
             $dates[$i] = new CocoalogDay($i);
