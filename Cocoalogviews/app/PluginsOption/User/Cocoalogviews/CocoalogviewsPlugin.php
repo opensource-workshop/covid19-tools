@@ -152,6 +152,13 @@ class CocoalogviewsPlugin extends UserPluginOptionBase
         // calendar をテキストエリアで受け取り。日付オブジェクトにセットする。
         $calendar_name = "calendar." . $frame_id;
         $calendar_textarea = trim($request->$calendar_name);
+
+        // ファイルがあれば、ファイルの内容でcalendar_textarea を上書き（テキスト貼り付けよりファイルを優先）
+        if ($request->hasFile('calendar_file.' . $frame_id)) {
+            $calendar_textarea = trim(file_get_contents($request->file('calendar_file.' . $frame_id), 'r'));
+            $calendar_textarea = mb_convert_encoding($calendar_textarea, 'UTF-8','SJIS-WIN,SJIS,UTF-8,ASCII');
+        }
+
         if ($calendar_textarea) {
             $calendar_array = explode("\n", $calendar_textarea);
             if (is_array($calendar_array) && count($calendar_array) > 1) {

@@ -45,9 +45,13 @@
     </div>
 
     <div class="form-group row">
-        <label class="col-md-2 control-label text-md-right">スケジュール</label>
+        <label class="col-md-2 control-label text-md-right">スケジュール（貼り付け or ファイル）</label>
         <div class="col-md-10">
             <textarea name="calendar[{{$frame_id}}]" class="form-control @if ($errors->has("calendar.$frame_id")) border-danger @endif" id="calendar{{$frame_id}}" rows=8>{!!old("calendar.$frame_id", $calendar)!!}</textarea>
+            <div class="custom-file mt-1">
+                <input type="file" class="custom-file-input" name="calendar_file[{{$frame_id}}]" id="calendar_file[{{$frame_id}}]">
+                <label class="custom-file-label" for="calendar_file[{{$frame_id}}]" data-browse="ファイル選択">カレンダーファイル</label>
+            </div>
             @if ($errors && $errors->has("calendar.$frame_id"))
                 <div class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{$errors->first("calendar.*")}}</div>
             @endif
@@ -82,7 +86,7 @@
         <th class="text-nowrap">スコア合計</th>
         <th class="text-nowrap">最大スコア</th>
         @if (!empty($calendar))
-            <th>スケジュール</th>
+            <th class="text-nowrap">スケジュール</th>
         @endisset($calendar)
     </tr>
 </thead>
@@ -195,5 +199,11 @@
 </table>
 </div>
 @endif
+
+<script src="/themes/Users/cocoalog/bs-custom-file-input.js"></script>
+<script>
+bsCustomFileInput.init();
+</script>
+</body>
 
 @endsection
