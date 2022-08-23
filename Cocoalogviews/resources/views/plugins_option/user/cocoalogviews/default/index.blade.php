@@ -27,7 +27,7 @@
     */
 @endphp
 
-<form action="{{url('/')}}/plugin/cocoalogviews/viewJson/{{$page->id}}/{{$frame_id}}#frame-{{$frame->id}}" method="POST" class="" enctype="multipart/form-data">
+<form action="{{url('/')}}/plugin/cocoalogviews/viewJson/{{$page->id}}/{{$frame_id}}#daily-result" method="POST" class="" enctype="multipart/form-data">
     {{ csrf_field() }}
 
     <div class="form-group row">
@@ -76,7 +76,7 @@
 
 @if(isset($dates))
 <br />
-<h5><span class="badge badge-pill badge-info">日毎の陽性者との接触記録</span></h5>
+<h5 id="daily-result"><span class="badge badge-pill badge-info">日毎の陽性者との接触記録</span></h5>
 <div class="table_frame table-responsive">
 <table class="table table-bordered table-sm">
 <thead class="sticky-top bg-light">
